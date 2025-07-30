@@ -1,14 +1,36 @@
 import React, { useEffect, useState } from "react";
 
 const moedas = [
-  { nome: "Dólar Americano", valor: 1.0, imagem: "https://upload.wikimedia.org/wikipedia/commons/4/41/US_one_dollar_bill%2C_obverse.jpg" },
-  { nome: "Euro", valor: 1.2, imagem: "https://upload.wikimedia.org/wikipedia/commons/6/65/Euro_banknotes_2002.jpg" },
-  { nome: "Iene Japonês", valor: 0.007, imagem: "https://upload.wikimedia.org/wikipedia/commons/7/79/1000_yen_banknote_2004.jpg" },
-  { nome: "Real Brasileiro", valor: 0.20, imagem: "https://upload.wikimedia.org/wikipedia/commons/f/fc/200_reais.jpg" },
-  { nome: "Libra Esterlina", valor: 1.3, imagem: "https://upload.wikimedia.org/wikipedia/commons/0/0b/New_20_Pound_note_%282020%29.jpg" }
+ const moedas = [
+  { nome: "Dólar Americano", valor: 1.0, imagem: "...", raridade: "Comum" },
+  { nome: "Euro", valor: 1.2, imagem: "...", raridade: "Comum" },
+  { nome: "Real Brasileiro", valor: 0.20, imagem: "...", raridade: "Comum" },
+  { nome: "Franco Suíço", valor: 1.1, imagem: "...", raridade: "Incomum" },
+  { nome: "Rupia Indiana", valor: 0.012, imagem: "...", raridade: "Incomum" },
+  { nome: "Dólar Canadense Comemorativo", valor: 2.5, imagem: "...", raridade: "Rara" },
+  { nome: "Bitcoin Física", valor: 30000, imagem: "...", raridade: "Muito Rara" },
+  { nome: "Moeda Olímpica Brasil", valor: 10.0, imagem: "...", raridade: "Épica" },
+  { nome: "Dracma Grego", valor: 1000.0, imagem: "...", raridade: "Antiga" },
+  { nome: "Denário Romano", valor: 1200.0, imagem: "...", raridade: "Antiga" },
+  { nome: "Shekel de Prata Antigo", valor: 900.0, imagem: "...", raridade: "Sagrada" },
+  { nome: "Moeda com erro de cunhagem", valor: 800.0, imagem: "...", raridade: "Mítica" },
+  { nome: "Moeda Única NFT", valor: 1000000, imagem: "...", raridade: "Única" }
 ];
 
-function App() {
+
+function App() {const coresRaridade = {
+  "Comum": "text-gray-700",
+  "Incomum": "text-green-700",
+  "Rara": "text-blue-700",
+  "Muito Rara": "text-purple-700",
+  "Épica": "text-pink-700",
+  "Lendária": "text-yellow-600",
+  "Mítica": "text-indigo-800",
+  "Antiga": "text-amber-800",
+  "Sagrada": "text-red-700",
+  "Única": "text-black font-bold"
+};
+
   const [result, setResult] = useState(null);
   const [inventory, setInventory] = useState([]);
 
