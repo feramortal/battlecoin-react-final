@@ -122,23 +122,29 @@ function classificarRaridade(valor) {
   return raridades.find(r => valor <= r.limite);
 }
 
+
 function App() {
-  const [result, setResult] = useState(null);
-  const [inventory, setInventory] = useState([]);
+  const [inventario, setInventario] = React.useState([]);
+  const [saldo, setSaldo] = React.useState(0);
+  const [mensagem, setMensagem] = React.useState("");
 
-  useEffect(() => {
-    const saved = localStorage.getItem("battlecoin-inventory");
-    if (saved) setInventory(JSON.parse(saved));
-  }, []);
+  const adicionarAoInventario = (moeda) => {
+    setInventario([...inventario, moeda]);
+  };
 
-  useEffect(() => {
-    localStorage.setItem("battlecoin-inventory", JSON.stringify(inventory));
-  }, [inventory]);
+  const venderMoeda = (index) => {
+    const moeda = inventario[index];
+    const novoInventario = [...inventario];
+    novoInventario.splice(index, 1);
+    setInventario(novoInventario);
+    setSaldo(saldo + Math.floor(moeda.valor / 10));
+    setMensagem(`Você vendeu ${moeda.nome} por ${Math.floor(moeda.valor / 10)} coins.`);
+  };
 
-  const puxarMoeda = () => {
-    const moeda = moedas[Math.floor(Math.random() * moedas.length)];
-    setResult(moeda);
-    setInventory([...inventory, moeda]);
+  const batalharMoedas = (m1, m2) => {
+    if (!m1 || !m2) return;
+    const vencedor = m1.valor >= m2.valor ? m1 : m2;
+    setMensagem(`A moeda vencedora é: ${vencedor.nome}`);
   };
 
   return (
