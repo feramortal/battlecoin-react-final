@@ -1,20 +1,19 @@
+
 import React, { useEffect, useState } from "react";
+import "./index.css";
 
-
-const rarities = {
-  comum: "#B0B0B0",
-  incomum: "#1E90FF",
-  rara: "#4169E1",
-  epica: "#8A2BE2",
-  lendaria: "#FFD700",
-  mitica: "#FF69B4",
-  antiga: "#CD7F32",
-  divina: "#00FFFF",
-  suprema: "#FF4500",
-  unica: "#FFFFFF"
-};
-
-
+const raridades = [
+  { nome: "Comum", cor: "#cccccc", limite: 0.1 },
+  { nome: "Incomum", cor: "#aaffaa", limite: 0.3 },
+  { nome: "Rara", cor: "#55aaff", limite: 0.6 },
+  { nome: "Épica", cor: "#aa55ff", limite: 1 },
+  { nome: "Lendária", cor: "#ffaa00", limite: 5 },
+  { nome: "Mítica", cor: "#ff55aa", limite: 20 },
+  { nome: "Antiga", cor: "#d4af37", limite: 50 },
+  { nome: "Exótica", cor: "#00ffff", limite: 100 },
+  { nome: "Divina", cor: "#ff0000", limite: 500 },
+  { nome: "Única", cor: "#000", limite: Infinity }
+];
 
 const moedas = [
   { nome: "Dólar Americano", valor: 1.0, imagem: "https://upload.wikimedia.org/wikipedia/commons/4/41/US_one_dollar_bill%2C_obverse.jpg" },
@@ -24,59 +23,61 @@ const moedas = [
   { nome: "Libra Esterlina", valor: 1.3, imagem: "https://upload.wikimedia.org/wikipedia/commons/0/0b/New_20_Pound_note_%282020%29.jpg" }
 ];
 
+function classificarRaridade(valor) {
+  return raridades.find(r => valor <= r.limite);
+}
+
 function App() {
   const [result, setResult] = useState(null);
   const [inventory, setInventory] = useState([]);
 
-  // Carregar inventário salvo
   useEffect(() => {
     const saved = localStorage.getItem("battlecoin-inventory");
-    if (saved) {
-      setInventory(JSON.parse(saved));
-    }
+    if (saved) setInventory(JSON.parse(saved));
   }, []);
 
-  const rollMoeda = () => {
+  useEffect(() => {
+    localStorage.setItem("battlecoin-inventory", JSON.stringify(inventory));
+  }, [inventory]);
+
+  const puxarMoeda = () => {
     const moeda = moedas[Math.floor(Math.random() * moedas.length)];
     setResult(moeda);
-
-    const novoInventario = [...inventory, moeda];
-    setInventory(novoInventario);
-    localStorage.setItem("battlecoin-inventory", JSON.stringify(novoInventario));
+    setInventory([...inventory, moeda]);
   };
 
   return (
-    <div className="p-8 min-h-screen bg-gradient-to-br from-yellow-100 to-yellow-300">
-      <h1 className="text-3xl font-bold text-yellow-800 mb-6">BattleCoin (sem login)</h1>
-
-      <button
-        onClick={rollMoeda}
-        className="bg-green-600 text-white px-6 py-2 rounded-xl hover:bg-green-700"
-      >
-        🎲 Roletar Moeda
-      </button>
+    <div className="app-container">
+      <h1>BattleCoin</h1>
+      <button onClick={puxarMoeda}>Puxar Moeda</button>
 
       {result && (
-        <div className="mt-6 p-4 bg-white rounded-xl shadow-lg w-fit">
-          <h3 className="text-lg font-bold">Você conseguiu:</h3>
-          <p className="text-xl">{result.nome} - ${result.valor.toFixed(2)}</p>
-          <img src={result.imagem} alt={result.nome} className="w-60 mt-2" />
+        <div className="moeda-destaque" style={{ borderColor: classificarRaridade(result.valor).cor }}>
+          <img src={result.imagem} alt={result.nome} />
+          <h2>{result.nome}</h2>
+          <p>Valor: ${result.valor.toFixed(2)}</p>
+          <span className="raridade" style={{ backgroundColor: classificarRaridade(result.valor).cor }}>
+            {classificarRaridade(result.valor).nome}
+          </span>
         </div>
       )}
 
-      {inventory.length > 0 && (
-        <div className="mt-10">
-          <h2 className="text-2xl font-semibold text-yellow-800 mb-4">Seu Inventário</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {inventory.map((m, index) => (
-              <div key={index} className="p-4 bg-white rounded-xl shadow-md">
-                <p className="font-semibold">{m.nome} - ${m.valor.toFixed(2)}</p>
-                <img src={m.imagem} alt={m.nome} className="w-full mt-2 rounded" />
+      <h2>Sua Coleção</h2>
+      <div className="colecao">
+        {inventory.map((moeda, index) => {
+          const raridade = classificarRaridade(moeda.valor);
+          return (
+            <div key={index} className="moeda" style={{ borderColor: raridade.cor }}>
+              <img src={moeda.imagem} alt={moeda.nome} />
+              <div className="info">
+                <strong>{moeda.nome}</strong>
+                <p>${moeda.valor.toFixed(2)}</p>
+                <span style={{ backgroundColor: raridade.cor }}>{raridade.nome}</span>
               </div>
-            ))}
-          </div>
-        </div>
-      )}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

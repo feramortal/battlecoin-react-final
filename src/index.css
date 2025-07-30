@@ -1,1 +1,79 @@
-body { font-family: sans-serif; margin: 0; padding: 0; background: #fffbe6; }
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+.app-container {
+  text-align: center;
+  padding: 20px;
+}
+
+button {
+  background: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.moeda-destaque {
+  margin: 20px auto;
+  padding: 10px;
+  border: 5px solid;
+  border-radius: 15px;
+  width: 300px;
+  background: #fff;
+}
+
+.moeda-destaque img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.raridade {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 5px 10px;
+  color: white;
+  border-radius: 10px;
+}
+
+.colecao {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.moeda {
+  border: 3px solid;
+  border-radius: 10px;
+  background: white;
+  padding: 10px;
+  width: 150px;
+}
+
+.moeda img {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.moeda .info {
+  margin-top: 5px;
+}
+
+.moeda .info span {
+  display: inline-block;
+  margin-top: 5px;
+  padding: 3px 8px;
+  border-radius: 8px;
+  color: white;
+  font-size: 12px;
+}
